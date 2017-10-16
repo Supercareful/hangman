@@ -311,7 +311,7 @@ function guessButtonHandler(){
 function visualHandler(c){
   // Incorrect guess handler
   if(c == 0){
-    ctx.font = "20px Calibri";
+    ctx.font = "bold 20px Calibri";
     ctx.fillStyle = "red";
     ctx.fillText(input.value,incorrectPosition,240); 
     ctx.stroke();

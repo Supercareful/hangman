@@ -1,0 +1,77 @@
+#titleText{
+	background-color: rgba(255,255,255,0.1);
+	color: #95a5a6;
+	position: absolute;
+	font-family: Serif;
+	font-size: 100px;
+	font-weight: bold;
+	text-align: center;
+	left: 0;
+	right: 0;
+	top: 30px;
+}
+
+#maincontent{
+	text-align: center;
+}
+
+#statusText{
+	height: 18px;
+	font-weight: bold;
+	font-size: 18px;
+}
+
+#hangmanBox{
+	border-radius: 20px;
+	background-color: #7f8c8d;
+	text-align: center;
+	border: 1px solid;
+	display: block;
+	margin: auto;
+	padding-top: 2px;
+	height: 340px;
+	width: 210px;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	top: 0;
+	position: absolute;
+}
+
+#canvas{
+	background-color: #95a5a6;
+	border: 1px solid;
+	display: block;
+	margin: auto;
+}
+
+#inputArea{
+	background-color: #7f8c8d;
+	padding-top: 5px;
+	text-align: center;
+	display: block;
+	margin: auto;
+}
+
+#inputString{
+	width: 30px;
+}
+
+#resetButton{
+	display: block;
+	margin: auto;
+}
+
+#buttonDiv{
+	padding-top: 6px;
+}
+
+button{
+	border-radius: 10px;
+	padding: 7px 7px 7px 7px;
+	background-color: #bdc3c7;
+}
+
+input.input-box, textarea { 
+	background: #bdc3c7; 
+}

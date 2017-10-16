@@ -2,23 +2,27 @@
 <html>
 <head>
 	<title>Simple Hangman Game</title>
-	<link rel="stylesheet" href="main.css">
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<link rel="stylesheet" href="css/main.css">
+	<link rel="stylesheet" media="screen" href="css/style.css">
 </head>
 <body>
 
 <div id="mainContent">
-
+	<div id="particles-js">
+		<div id="titleText">Simple Hangman</div>
 <div id="hangmanBox">
 	<div id="statusText"></div>
 	<canvas id="canvas" width="200" height="250">></canvas>
-	<div id="correctLetters"></div>
-	<div id="incorrectLetters"></div>
-	<div id="inputArea">Guess Letter: <input id="inputString" type="text" maxlength="1" oninput='guessButtonHandler()'></input></div>
+	<div id="inputArea">Guess Letter: <input id="inputString" type="text" maxlength="1" class="input-box" oninput='guessButtonHandler()'></input></div>
 	<div id="buttonDiv"><button id="resetButton" onclick='resetButtonHandler()'> New game </button></div>
 </div>
 </div>
+</div>
 </body>
-
-	<script src="game.js"></script> 
+	<script src="js/particles.js"></script>
+	<script src="js/app.js"></script>
+	<script src="js/game.js"></script> 
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 </html>
