@@ -272,14 +272,10 @@ function guessButtonHandler(){
   var re = new RegExp(input.value, "g");
 
   // Ensures nothing happens if new game isn't started
-  if(init == 0){
-    return;
-  }else if(guessedLetters.indexOf(input.value) != -1){
+  if((guessedLetters.indexOf(input.value) != -1) || (init == 0)){
     input.value = '';
     return;
-  }else if(input.value == '')
-    window.alert("No inputs");
-  else if(word.includes(input.value)){
+  }else if(word.includes(input.value)){
     results = results.replace(re, '');
     visualHandler(1);
   }else{
@@ -297,13 +293,14 @@ function guessButtonHandler(){
     statusText.style.color = "red";
     statusText.textContent = "You Lose";
     
+    // Paints in remaining letters
     for(key in letterPositions){
-      // Paints in remaining letters
       ctx.font = ansFont;
       ctx.fillText(" "+letterPositions[key],key,200); 
       ctx.stroke();
     }
     init = 0;
+
   }else if(results == 0){
     statusText.style.color = "green";
     statusText.textContent = "You Win";
@@ -321,10 +318,13 @@ function visualHandler(c){
     incorrectPosition += 15;
     bodyHandler(bodyIndex);
     bodyIndex++;
+
   // Correct guess handler
   }else{
     ctx.font = ansFont;
     ctx.fillStyle = "green";
+
+    // Fills in letters at appropriate indexes
     for(key in letterPositions){
       if(input.value == letterPositions[key]){
         ctx.fillText(" "+input.value,key,200); 
@@ -332,6 +332,7 @@ function visualHandler(c){
         delete letterPositions[key];
       }
     }
+
   }
 }
 
@@ -353,7 +354,6 @@ function resetButtonHandler(){
   bodyIndex = 0;
   init = 1;
   guessedLetters = [];
-  
 }
 
 // Generates new word per game
@@ -376,7 +376,7 @@ function createInitialCanvas(){
   size = 73.6538 + (-9.14835*word.length)+ (0.3571429*word.length*word.length);
   ansFont = size + style;
 
-  // Paints initial pole
+  // Paints initial pole and words
   ctx.beginPath();
   ctx.moveTo(100,30);
   ctx.lineTo(100,10);
@@ -384,13 +384,13 @@ function createInitialCanvas(){
   ctx.lineTo(30,160);
   ctx.moveTo(0,160);
   ctx.lineTo(100,160);
-
   ctx.font = "12px Arial";
   ctx.textAlign = "start";
   ctx.fillStyle = "black";
   ctx.fillText("Incorrect Letters:",2,240); 
   ctx.stroke();
 
+  // Changes font to new variable font
   ctx.font = ansFont;
 
   // Creates initial word length paint
@@ -455,5 +455,6 @@ function bodyHandler(index){
     }
   };
 
+  // Creates body part per called index
   body[index]();
 }
