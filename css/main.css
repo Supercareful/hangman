@@ -52,6 +52,7 @@
 	bottom: 0;
 	top: 0;
 	position: absolute;
+	box-shadow: 3px 3px 5px;
 }
 
 #canvas{

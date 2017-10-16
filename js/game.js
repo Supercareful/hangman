@@ -361,6 +361,7 @@ function generateWord() {
   var randomSeed = Math.floor(Math.random() * wordList.length);
   word = wordList[randomSeed];
   results = word;
+  word.length <= 4 ? generateWord() : 0;
 }
 
 
