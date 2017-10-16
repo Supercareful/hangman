@@ -265,147 +265,149 @@ var ctx = canvas.getContext("2d");
 
 
 function guessButtonHandler(){
+  input.value = input.value.toLowerCase();
 
   // Regex to handle variable values in a global scope
-	var re = new RegExp(input.value, "g");
+  var re = new RegExp(input.value, "g");
 
+  
   // Ensures nothing happens if new game isn't started
-	if(init == 0){
-		return;
-	}else if(guessedLetters.indexOf(input.value) != -1){
-		input.value = '';
-		return;
-	}else if(input.value == '')
-		window.alert("No inputs");
-	else if(word.includes(input.value)){
-		results = results.replace(re, '');
-		visualHandler(1);
-	}else{
-		visualHandler(0);
-		strikes++;
-	}
+  if(init == 0){
+    return;
+  }else if(guessedLetters.indexOf(input.value) != -1){
+    input.value = '';
+    return;
+  }else if(input.value == '')
+    window.alert("No inputs");
+  else if(word.includes(input.value)){
+    results = results.replace(re, '');
+    visualHandler(1);
+  }else{
+    visualHandler(0);
+    strikes++;
+  }
 
   // Adds to list of guessed letters
-	guessedLetters.push(input.value);
+  guessedLetters.push(input.value);
 
   // Resets input box
-	input.value = '';
+  input.value = '';
 
-	if(strikes == 6){
-		window.alert("You lose");
-		for(key in letterPositions){
+  if(strikes == 6){
+    window.alert("You lose");
+    for(key in letterPositions){
       // Paints in remaining letters
-			ctx.font = ansFont;
-			ctx.fillText(" "+letterPositions[key],key,200); 
-			ctx.stroke();
-		}
-		init = 0;
-	}else if(results == 0){
-		window.alert("You win");
-		init = 0;
-	}
+      ctx.font = ansFont;
+      ctx.fillText(" "+letterPositions[key],key,200); 
+      ctx.stroke();
+    }
+    init = 0;
+  }else if(results == 0){
+    window.alert("You win");
+    init = 0;
+  }
 }
 
 function visualHandler(c){
   // Associative array for handle person building
-	var body = {
-		0: function(){
-			// Head with eyes and mouth
-			ctx.beginPath();
-			ctx.arc(100,50,20,0,2*Math.PI);
-			ctx.moveTo(100,55);
-			ctx.arc(100,60,5,Math.PI,2*Math.PI);
-			ctx.moveTo(95,45);
-			ctx.arc(95,45,2,0,2*Math.PI);
-			ctx.moveTo(105,45);
-			ctx.arc(105,45,2,0,2*Math.PI);
-			ctx.stroke();
-		},
-		1: function(){
-			// Body
-			ctx.beginPath();
-			ctx.moveTo(100,70);
-			ctx.lineTo(100,110);
-			ctx.stroke();
-		},
-		2: function(){
-			// left leg
-			ctx.beginPath();
-			ctx.moveTo(100,110);
-			ctx.lineTo(75,140);
-			ctx.stroke();
-			},
-		3: function(){
-			// right leg
-			ctx.beginPath();
-			ctx.moveTo(100,110);
-			ctx.lineTo(125,140);
-			ctx.stroke();
-		},
-		4: function(){
-			// left arm
-			ctx.beginPath();
-			ctx.moveTo(100,80);
-			ctx.lineTo(75,100);
-			ctx.stroke();
-		},
-		5: function(){
-			// right arm
-			ctx.beginPath();
-			ctx.moveTo(100,80);
-			ctx.lineTo(125,100);
-			ctx.stroke();
-		}
-	}
+  var body = {
+    0: function(){
+      // Head with eyes and mouth
+      ctx.beginPath();
+      ctx.arc(100,50,20,0,2*Math.PI);
+      ctx.moveTo(100,55);
+      ctx.arc(100,60,5,Math.PI,2*Math.PI);
+      ctx.moveTo(95,45);
+      ctx.arc(95,45,2,0,2*Math.PI);
+      ctx.moveTo(105,45);
+      ctx.arc(105,45,2,0,2*Math.PI);
+      ctx.stroke();
+    },
+    1: function(){
+      // Body
+      ctx.beginPath();
+      ctx.moveTo(100,70);
+      ctx.lineTo(100,110);
+      ctx.stroke();
+    },
+    2: function(){
+      // left leg
+      ctx.beginPath();
+      ctx.moveTo(100,110);
+      ctx.lineTo(75,140);
+      ctx.stroke();
+      },
+    3: function(){
+      // right leg
+      ctx.beginPath();
+      ctx.moveTo(100,110);
+      ctx.lineTo(125,140);
+      ctx.stroke();
+    },
+    4: function(){
+      // left arm
+      ctx.beginPath();
+      ctx.moveTo(100,80);
+      ctx.lineTo(75,100);
+      ctx.stroke();
+    },
+    5: function(){
+      // right arm
+      ctx.beginPath();
+      ctx.moveTo(100,80);
+      ctx.lineTo(125,100);
+      ctx.stroke();
+    }
+  }
 
   // Incorrect guess handler
-	if(c == 0){
-		ctx.font = "20px Calibri";
-		ctx.fillStyle = "red";
-		ctx.fillText(input.value,incorrectPosition,240); 
-		ctx.stroke();
-		incorrectPosition += 15;
-		body[bodyIndex]();
-		bodyIndex++;
+  if(c == 0){
+    ctx.font = "20px Calibri";
+    ctx.fillStyle = "red";
+    ctx.fillText(input.value,incorrectPosition,240); 
+    ctx.stroke();
+    incorrectPosition += 15;
+    body[bodyIndex]();
+    bodyIndex++;
   // Correct guess handler
-	}else{
-		ctx.font = ansFont;
-		ctx.fillStyle = "green";
-		for(key in letterPositions){
-			if(input.value == letterPositions[key]){
-				ctx.fillText(" "+input.value,key,200); 
-				ctx.stroke();
-				delete letterPositions[key];
-			}
-		}
-	}
+  }else{
+    ctx.font = ansFont;
+    ctx.fillStyle = "green";
+    for(key in letterPositions){
+      if(input.value == letterPositions[key]){
+        ctx.fillText(" "+input.value,key,200); 
+        ctx.stroke();
+        delete letterPositions[key];
+      }
+    }
+  }
 
 
 }
 
 // Resets everything
 function resetButtonHandler(over){
-	if(over == 1){
-		window.alert("you lose");
-	}
-	else if(over == 2)
-		window.alert("you win");
+  if(over == 1){
+    window.alert("you lose");
+  }
+  else if(over == 2)
+    window.alert("you win");
 
-	for(key in letterPositions){
-		delete letterPositions[key];
-	}
+  for(key in letterPositions){
+    delete letterPositions[key];
+  }
 
-	correctPosition = 1;
-	strikes = 0;
-	generateWord();
-	console.log(word);
-	ctx.clearRect(0, 0, 200, canvas.height);
-	createInitialCanvas();
-	incorrectPosition = 94;
-	bodyIndex = 0;
-	init = 1;
-	guessedLetters = [];
-	
+  correctPosition = 1;
+  strikes = 0;
+  generateWord();
+  console.log(word);
+  ctx.clearRect(0, 0, 200, canvas.height);
+  createInitialCanvas();
+  incorrectPosition = 94;
+  bodyIndex = 0;
+  init = 1;
+  guessedLetters = [];
+  
 }
 
 // Generates new word per game
@@ -417,38 +419,38 @@ function generateWord() {
 
 
 window.onload = function(){
-	createInitialCanvas();
+  createInitialCanvas();
 }
 
 function createInitialCanvas(){
-	var style = 'px Arial';
+  var style = 'px Arial';
 
   // Initializes string size per length of word generated
-	size = 73.6538 + (-9.14835*word.length)+ (0.3571429*word.length*word.length);
-	ansFont = size + style;
+  size = 73.6538 + (-9.14835*word.length)+ (0.3571429*word.length*word.length);
+  ansFont = size + style;
 
   // Paints initial pole
-	ctx.beginPath();
-	ctx.moveTo(100,30);
-	ctx.lineTo(100,10);
-	ctx.lineTo(30,10);
-	ctx.lineTo(30,160);
-	ctx.moveTo(0,160);
-	ctx.lineTo(100,160);
+  ctx.beginPath();
+  ctx.moveTo(100,30);
+  ctx.lineTo(100,10);
+  ctx.lineTo(30,10);
+  ctx.lineTo(30,160);
+  ctx.moveTo(0,160);
+  ctx.lineTo(100,160);
 
-	ctx.font = "12px Arial";
-	ctx.textAlign = "start";
-	ctx.fillStyle = "black";
-	ctx.fillText("Incorrect Letters:",2,240); 
-	ctx.stroke();
+  ctx.font = "12px Arial";
+  ctx.textAlign = "start";
+  ctx.fillStyle = "black";
+  ctx.fillText("Incorrect Letters:",2,240); 
+  ctx.stroke();
 
-	ctx.font = ansFont;
+  ctx.font = ansFont;
 
   // Creates initial word length paint
-	for (var i = 0; i < word.length; i++) {
-		letterPositions[correctPosition] = word[i];
-		correctPosition += size;
-		ctx.fillText("_ ",7+i*size,200);
-		ctx.stroke();
-	}
+  for (var i = 0; i < word.length; i++) {
+    letterPositions[correctPosition] = word[i];
+    correctPosition += size;
+    ctx.fillText("_ ",7+i*size,200);
+    ctx.stroke();
+  }
 }
