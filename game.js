@@ -259,6 +259,7 @@ var ansFont = "";
 var letterPositions = {};
 var guessedLetters = [];
 var randomSeed = generateWord();
+var statusText = document.getElementById("statusText");
 var input = document.getElementById('inputString');
 var canvas = document.getElementById("canvas");
 var ctx = canvas.getContext("2d");
@@ -270,7 +271,6 @@ function guessButtonHandler(){
   // Regex to handle variable values in a global scope
   var re = new RegExp(input.value, "g");
 
-  
   // Ensures nothing happens if new game isn't started
   if(init == 0){
     return;
@@ -294,7 +294,9 @@ function guessButtonHandler(){
   input.value = '';
 
   if(strikes == 6){
-    window.alert("You lose");
+    statusText.style.color = "red";
+    statusText.textContent = "You Lose";
+    
     for(key in letterPositions){
       // Paints in remaining letters
       ctx.font = ansFont;
@@ -303,12 +305,105 @@ function guessButtonHandler(){
     }
     init = 0;
   }else if(results == 0){
-    window.alert("You win");
+    statusText.style.color = "green";
+    statusText.textContent = "You Win";
     init = 0;
   }
 }
 
 function visualHandler(c){
+  // Incorrect guess handler
+  if(c == 0){
+    ctx.font = "20px Calibri";
+    ctx.fillStyle = "red";
+    ctx.fillText(input.value,incorrectPosition,240); 
+    ctx.stroke();
+    incorrectPosition += 15;
+    bodyHandler(bodyIndex);
+    bodyIndex++;
+  // Correct guess handler
+  }else{
+    ctx.font = ansFont;
+    ctx.fillStyle = "green";
+    for(key in letterPositions){
+      if(input.value == letterPositions[key]){
+        ctx.fillText(" "+input.value,key,200); 
+        ctx.stroke();
+        delete letterPositions[key];
+      }
+    }
+  }
+}
+
+// Resets everything
+function resetButtonHandler(){
+  statusText.textContent = "";
+
+  for(key in letterPositions){
+    delete letterPositions[key];
+  }
+
+  correctPosition = 1;
+  strikes = 0;
+  generateWord();
+  console.log(word);
+  ctx.clearRect(0, 0, 200, canvas.height);
+  createInitialCanvas();
+  incorrectPosition = 94;
+  bodyIndex = 0;
+  init = 1;
+  guessedLetters = [];
+  
+}
+
+// Generates new word per game
+function generateWord() {
+  var randomSeed = Math.floor(Math.random() * wordList.length);
+  word = wordList[randomSeed];
+  results = word;
+}
+
+
+window.onload = function(){
+  createInitialCanvas();
+}
+
+
+function createInitialCanvas(){
+  var style = 'px Arial';
+
+  // Initializes string size per length of word generated
+  size = 73.6538 + (-9.14835*word.length)+ (0.3571429*word.length*word.length);
+  ansFont = size + style;
+
+  // Paints initial pole
+  ctx.beginPath();
+  ctx.moveTo(100,30);
+  ctx.lineTo(100,10);
+  ctx.lineTo(30,10);
+  ctx.lineTo(30,160);
+  ctx.moveTo(0,160);
+  ctx.lineTo(100,160);
+
+  ctx.font = "12px Arial";
+  ctx.textAlign = "start";
+  ctx.fillStyle = "black";
+  ctx.fillText("Incorrect Letters:",2,240); 
+  ctx.stroke();
+
+  ctx.font = ansFont;
+
+  // Creates initial word length paint
+  for (var i = 0; i < word.length; i++) {
+    letterPositions[correctPosition] = word[i];
+    correctPosition += size;
+    ctx.fillText("_ ",7+i*size,200);
+    ctx.stroke();
+  }
+}
+
+
+function bodyHandler(index){
   // Associative array for handle person building
   var body = {
     0: function(){
@@ -358,99 +453,7 @@ function visualHandler(c){
       ctx.lineTo(125,100);
       ctx.stroke();
     }
-  }
+  };
 
-  // Incorrect guess handler
-  if(c == 0){
-    ctx.font = "20px Calibri";
-    ctx.fillStyle = "red";
-    ctx.fillText(input.value,incorrectPosition,240); 
-    ctx.stroke();
-    incorrectPosition += 15;
-    body[bodyIndex]();
-    bodyIndex++;
-  // Correct guess handler
-  }else{
-    ctx.font = ansFont;
-    ctx.fillStyle = "green";
-    for(key in letterPositions){
-      if(input.value == letterPositions[key]){
-        ctx.fillText(" "+input.value,key,200); 
-        ctx.stroke();
-        delete letterPositions[key];
-      }
-    }
-  }
-
-
-}
-
-// Resets everything
-function resetButtonHandler(over){
-  if(over == 1){
-    window.alert("you lose");
-  }
-  else if(over == 2)
-    window.alert("you win");
-
-  for(key in letterPositions){
-    delete letterPositions[key];
-  }
-
-  correctPosition = 1;
-  strikes = 0;
-  generateWord();
-  console.log(word);
-  ctx.clearRect(0, 0, 200, canvas.height);
-  createInitialCanvas();
-  incorrectPosition = 94;
-  bodyIndex = 0;
-  init = 1;
-  guessedLetters = [];
-  
-}
-
-// Generates new word per game
-function generateWord() {
-  var randomSeed = Math.floor(Math.random() * wordList.length);
-  word = wordList[randomSeed];
-  results = word;
-}
-
-
-window.onload = function(){
-  createInitialCanvas();
-}
-
-function createInitialCanvas(){
-  var style = 'px Arial';
-
-  // Initializes string size per length of word generated
-  size = 73.6538 + (-9.14835*word.length)+ (0.3571429*word.length*word.length);
-  ansFont = size + style;
-
-  // Paints initial pole
-  ctx.beginPath();
-  ctx.moveTo(100,30);
-  ctx.lineTo(100,10);
-  ctx.lineTo(30,10);
-  ctx.lineTo(30,160);
-  ctx.moveTo(0,160);
-  ctx.lineTo(100,160);
-
-  ctx.font = "12px Arial";
-  ctx.textAlign = "start";
-  ctx.fillStyle = "black";
-  ctx.fillText("Incorrect Letters:",2,240); 
-  ctx.stroke();
-
-  ctx.font = ansFont;
-
-  // Creates initial word length paint
-  for (var i = 0; i < word.length; i++) {
-    letterPositions[correctPosition] = word[i];
-    correctPosition += size;
-    ctx.fillText("_ ",7+i*size,200);
-    ctx.stroke();
-  }
+  body[index]();
 }

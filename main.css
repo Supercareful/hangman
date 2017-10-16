@@ -2,13 +2,21 @@
 	margin-top: 15%;
 }
 
+#maincontent{
+	text-align: center;
+}
+
+#statusText{
+	height: 18px;
+}
 
 #hangmanBox{
+	text-align: center;
 	border: 1px solid;
 	display: block;
 	margin: auto;
-	padding-top: 5px;
-	height: 310px;
+	padding-top: 2px;
+	height: 340px;
 	width: 210px;
 }
 
