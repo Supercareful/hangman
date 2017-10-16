@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Simple Hangman Game</title>
+	<link rel="stylesheet" href="main.css">
+</head>
+<body>
+
+<div id="mainContent">
+<div id="hangmanBox">
+
+	<canvas id="canvas" width="200" height="250">></canvas>
+	<div id="correctLetters"></div>
+	<div id="incorrectLetters"></div>
+	<div id="inputArea">Guess Letter: <input id="inputString" type="text" maxlength="1" oninput='guessButtonHandler()'></input></div>
+	<div id="buttonDiv"><button id="resetButton" onclick='resetButtonHandler()'> New game </button></div>
+</div>
+</div>
+</body>
+
+	<script src="game.js"></script> 
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</html>
